@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Model
 {
@@ -11,19 +10,29 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id',
-        'motor_id',
         'tanggal_mulai',
         'tanggal_selesai',
         'status',
+        'catatan',
     ];
 
-    public function user(): BelongsTo
+    protected $casts = [
+        'tanggal_mulai'   => 'date',
+        'tanggal_selesai' => 'date',
+    ];
+
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function motor(): BelongsTo
+    public function detail()
     {
-        return $this->belongsTo(Motor::class, 'motor_id');
+        return $this->hasMany(DetailBooking::class, 'booking_id');
+    }
+
+    public function pengembalian()
+    {
+        return $this->hasOne(Pengembalian::class, 'booking_id');
     }
 }

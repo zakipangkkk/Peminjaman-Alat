@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 23, 2026 at 12:50 PM
+-- Generation Time: Oct 18, 2026 at 01:09 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.4.24
 
@@ -24,17 +24,54 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `alat`
+--
+
+CREATE TABLE `alat` (
+  `id` bigint UNSIGNED NOT NULL,
+  `kategori_id` bigint UNSIGNED NOT NULL,
+  `nama_alat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jumlah` int NOT NULL,
+  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `alat`
+--
+
+INSERT INTO `alat` (`id`, `kategori_id`, `nama_alat`, `jumlah`, `foto`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Laptop Asus', 2, 'alat/jFMaFxGPVuJ0ZVfmN7XLc03iw9BhWSNuQ6IpyaT0.jpg', '2026-10-14 05:13:42', '2026-10-14 17:10:19'),
+(2, 1, 'axioo', 10, 'alat/Hhjds5vy6oXQUw2RITTJzPPP13pdCUZ8dp8GK7wu.jpg', '2026-10-14 16:22:50', '2026-10-14 17:07:06');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `booking`
 --
 
 CREATE TABLE `booking` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `motor_id` bigint UNSIGNED NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date NOT NULL,
-  `status` enum('pending','approved','rejected','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending'
+  `status` enum('pending','approved','rejected','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `catatan` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`id`, `user_id`, `tanggal_mulai`, `tanggal_selesai`, `status`, `catatan`, `created_at`, `updated_at`) VALUES
+(1, 2, '2026-10-14', '2026-10-16', 'completed', NULL, '2026-10-14 05:15:21', '2026-10-14 05:16:56'),
+(2, 1, '2026-10-15', '2026-10-17', 'completed', NULL, '2026-10-14 16:23:48', '2026-10-14 16:25:21'),
+(3, 1, '2026-10-15', '2026-10-16', 'rejected', 'alat sedang ada perbaikan', '2026-10-14 16:46:30', '2026-10-14 16:47:09'),
+(4, 1, '2026-10-15', '2026-10-17', 'completed', NULL, '2026-10-14 17:06:10', '2026-10-14 17:07:06'),
+(5, 1, '2026-10-15', '2026-10-16', 'approved', NULL, '2026-10-14 17:10:01', '2026-10-14 17:10:19');
 
 -- --------------------------------------------------------
 
@@ -63,14 +100,30 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dokument`
+-- Table structure for table `detail_booking`
 --
 
-CREATE TABLE `dokument` (
+CREATE TABLE `detail_booking` (
   `id` bigint UNSIGNED NOT NULL,
   `booking_id` bigint UNSIGNED NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `alat_id` bigint UNSIGNED NOT NULL,
+  `jumlah` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `detail_booking`
+--
+
+INSERT INTO `detail_booking` (`id`, `booking_id`, `alat_id`, `jumlah`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, '2026-10-14 05:15:21', '2026-10-14 05:15:21'),
+(2, 2, 1, 2, '2026-10-14 16:23:48', '2026-10-14 16:23:48'),
+(3, 2, 2, 1, '2026-10-14 16:23:48', '2026-10-14 16:23:48'),
+(4, 3, 1, 1, '2026-10-14 16:46:30', '2026-10-14 16:46:30'),
+(5, 4, 1, 1, '2026-10-14 17:06:10', '2026-10-14 17:06:10'),
+(6, 4, 2, 1, '2026-10-14 17:06:10', '2026-10-14 17:06:10'),
+(7, 5, 1, 1, '2026-10-14 17:10:01', '2026-10-14 17:10:01');
 
 -- --------------------------------------------------------
 
@@ -132,7 +185,6 @@ CREATE TABLE `job_batches` (
 CREATE TABLE `kategori` (
   `id` bigint UNSIGNED NOT NULL,
   `nama_kategori` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `harga_per_hari` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -141,11 +193,23 @@ CREATE TABLE `kategori` (
 -- Dumping data for table `kategori`
 --
 
-INSERT INTO `kategori` (`id`, `nama_kategori`, `harga_per_hari`, `created_at`, `updated_at`) VALUES
-(1, 'contoh', '15000', NULL, NULL),
-(3, 'Matic', '80000', NULL, NULL),
-(4, 'Sport', '150000', NULL, NULL),
-(5, 'Trail', '160000', NULL, NULL);
+INSERT INTO `kategori` (`id`, `nama_kategori`, `created_at`, `updated_at`) VALUES
+(1, 'laptop', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_aktivitas`
+--
+
+CREATE TABLE `log_aktivitas` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `aktivitas` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `waktu_aktivitas` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -169,36 +233,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '0001_01_01_000002_create_jobs_table', 1),
 (4, '2026_09_10_000256_tb_user', 1),
 (5, '2026_09_10_000555_tb_kategori', 1),
-(6, '2026_09_10_000941_tb_motor', 1),
+(6, '2026_09_10_000941_tb_alat', 1),
 (7, '2026_09_10_002254_tb_booking', 1),
-(8, '2026_09_10_002312_tb_dokument', 1),
-(9, '2026_09_10_015451_tb_pengembalian', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `motor`
---
-
-CREATE TABLE `motor` (
-  `id` bigint UNSIGNED NOT NULL,
-  `kategori_id` bigint UNSIGNED NOT NULL,
-  `nama_motor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `plat_nomor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `motor`
---
-
-INSERT INTO `motor` (`id`, `kategori_id`, `nama_motor`, `plat_nomor`, `foto`, `cc`, `status`, `created_at`, `updated_at`) VALUES
-(2, 1, 'mio 2011', 'B 12345678', 'motor/mAzoqgNNTK1OdMhKqxWt1nAlKR3PVcMsfHMTZtYt.png', '250', 'tersedia', '2026-09-21 01:15:55', '2026-09-21 01:28:58'),
-(4, 4, 'XSR 155', 'B 2011', 'motor/9QDqnmExVHcPU0aXwEwarwvxnM0ofsgdFpE2rcmD.jpg', '155', 'tersedia', '2026-09-22 17:35:18', '2026-09-22 17:35:18');
+(8, '2026_09_10_003522_tb_detail_peminjaman', 1),
+(9, '2026_09_10_015451_tb_pengembalian', 1),
+(10, '2026_09_22_235526_tb_log_aktivitas', 1);
 
 -- --------------------------------------------------------
 
@@ -227,6 +266,15 @@ CREATE TABLE `pengembalian` (
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `pengembalian`
+--
+
+INSERT INTO `pengembalian` (`id`, `booking_id`, `tanggal_kembali`, `denda`, `keterangan`, `status`) VALUES
+(1, 1, '2026-10-14', 0.00, '-', 'tepat waktu'),
+(2, 2, '2026-10-14', 10000.00, 'kondisi cukup baik', 'tepat waktu'),
+(3, 4, '2026-10-15', 0.00, 'baik', 'tepat waktu');
+
 -- --------------------------------------------------------
 
 --
@@ -247,8 +295,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('SDfpGJB3FWP1VMNsV8rX6Fqye2Ggra8TDlMzdKIo', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.138.0 Chrome/148.0.7778.280 Electron/42.10.0 Safari/537.36', 'eyJfdG9rZW4iOiJBbzlDUXE4SmpqMW45bzhZSjhaazhmN1lPZXhSOXBmN1ZkOHN5UWp5IiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvMTI3LjAuMC4xOjgwMDAifSwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvdXNlciIsInJvdXRlIjoiYWRtaW4udXNlci5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoyfQ==', 1790054081),
-('SX20A4FFcplafOMMaSzGLDVgmbQEnoBaSLsU92H5', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.138.0 Chrome/148.0.7778.280 Electron/42.10.0 Safari/537.36', 'eyJfdG9rZW4iOiJqbFdDRGJCbE0yekJnelp1V1lDbVVVV2lROGpxb090QUQxY2c4b3VnIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvMTI3LjAuMC4xOjgwMDAifSwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9tb3RvclwvMiIsInJvdXRlIjoibW90b3IuZGV0YWlsIn0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfSwibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiOjJ9', 1790127516);
+('lDuzkuFAjciUuhy0WhqC6u9DDyaMrFc2aRbSHGNT', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0', 'eyJfdG9rZW4iOiJpRHNqRGc4Tno2aWc0RWRCa0lSNkpKSEJOdjdKTUpyc2Vzd2RaY2YyIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvYm9va2luZz9zdGF0dXM9YXBwcm92ZWQiLCJyb3V0ZSI6ImFkbWluLmJvb2tpbmcuaW5kZXgifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119LCJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI6Mn0=', 1792023128),
+('Y6t1vkvyt7xxy9VXgYBdTOqIcniGMff8X933Eq3G', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJrYXdNbFhQb0lTSG1OU3dZT3ZUdXVPSVpEVWhBMEl6UmdweFVBcEpFIiwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119LCJfcHJldmlvdXMiOnsidXJsIjoiaHR0cDpcL1wvMTI3LjAuMC4xOjgwMDBcL2Jvb2tpbmciLCJyb3V0ZSI6ImJvb2tpbmcuaW5kZXgifSwibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiOjF9', 1792023046);
 
 -- --------------------------------------------------------
 
@@ -272,8 +320,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `no_telfon`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'zaki', 'zpamungkas@gmail.com', '$2y$12$YEdPhq.f6PHmg2.wi/WAbO6D0j.MhtVGyPibWRw8A8JNeElMEARHm', '08999999', 'user', NULL, '2026-09-18 05:13:58'),
-(2, 'admin', 'admin@gmail.com', '$2y$12$xL2qcALLvLaFoEue8dV6.eIu4DbtVuXkJ1KiyWbFjZviXulSy6jiG', '081234567890', 'admin', '2026-09-18 05:18:35', '2026-09-18 05:18:35');
+(1, 'siswa', 'siswa@gmail.com', '$2y$12$Cyg0iVli.ylS7NRP34gwWOGpPfBHxcFwcfE.PKUa1.YhCQ3AUJGba', '081234567890', 'user', '2026-10-14 05:11:08', '2026-10-14 05:11:08'),
+(2, 'admin', 'admin@gmail.com', '$2y$12$k1IeLF81cz54Aw90bcDsw.wMtyX7WAS5tzZvM4fOY2PQEvY29qN8m', '081234567891', 'admin', '2026-10-14 05:11:18', '2026-10-14 05:11:18'),
+(3, 'petugas', 'petugas@gmail.com', '$2y$12$iR8eXTbI6lyzD4oiEtUgduz6w2n7Z6yg3VgEhIwAItM.P4OwRj0Bu', '081234567892', 'petugas', '2026-10-14 05:11:26', '2026-10-14 05:11:26');
 
 -- --------------------------------------------------------
 
@@ -297,12 +346,18 @@ CREATE TABLE `users` (
 --
 
 --
+-- Indexes for table `alat`
+--
+ALTER TABLE `alat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `alat_kategori_id_foreign` (`kategori_id`);
+
+--
 -- Indexes for table `booking`
 --
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `booking_user_id_foreign` (`user_id`),
-  ADD KEY `booking_motor_id_foreign` (`motor_id`);
+  ADD KEY `booking_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `cache`
@@ -319,11 +374,12 @@ ALTER TABLE `cache_locks`
   ADD KEY `cache_locks_expiration_index` (`expiration`);
 
 --
--- Indexes for table `dokument`
+-- Indexes for table `detail_booking`
 --
-ALTER TABLE `dokument`
+ALTER TABLE `detail_booking`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `dokument_booking_id_foreign` (`booking_id`);
+  ADD KEY `detail_booking_booking_id_foreign` (`booking_id`),
+  ADD KEY `detail_booking_alat_id_foreign` (`alat_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -353,17 +409,17 @@ ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `log_aktivitas`
+--
+ALTER TABLE `log_aktivitas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `log_aktivitas_user_id_foreign` (`user_id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `motor`
---
-ALTER TABLE `motor`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `motor_kategori_id_foreign` (`kategori_id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -406,16 +462,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `alat`
+--
+ALTER TABLE `alat`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `dokument`
+-- AUTO_INCREMENT for table `detail_booking`
 --
-ALTER TABLE `dokument`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `detail_booking`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -433,25 +495,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `log_aktivitas`
+--
+ALTER TABLE `log_aktivitas`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `motor`
---
-ALTER TABLE `motor`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -470,29 +532,35 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `alat`
+--
+ALTER TABLE `alat`
+  ADD CONSTRAINT `alat_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategori` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `booking`
 --
 ALTER TABLE `booking`
-  ADD CONSTRAINT `booking_motor_id_foreign` FOREIGN KEY (`motor_id`) REFERENCES `motor` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `booking_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `dokument`
+-- Constraints for table `detail_booking`
 --
-ALTER TABLE `dokument`
-  ADD CONSTRAINT `dokument_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE;
+ALTER TABLE `detail_booking`
+  ADD CONSTRAINT `detail_booking_alat_id_foreign` FOREIGN KEY (`alat_id`) REFERENCES `alat` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `detail_booking_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `motor`
+-- Constraints for table `log_aktivitas`
 --
-ALTER TABLE `motor`
-  ADD CONSTRAINT `motor_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategori` (`id`);
+ALTER TABLE `log_aktivitas`
+  ADD CONSTRAINT `log_aktivitas_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  ADD CONSTRAINT `pengembalian_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pengembalian_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

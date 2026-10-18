@@ -6,23 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Motor extends Model
+class Alat extends Model
 {
-    protected $table = 'motor';
+    protected $table = 'alat';
 
 protected $fillable = [
-    'nama_motor',
-    'plat_nomor',
+    'nama_alat',
+    'jumlah',
     'kategori_id',
     'foto',
-    'cc',
-    'status',
 ];
 
-    public function booking(): HasMany
-    {
-        return $this->hasMany(Booking::class);
-    }
+public function booking(): HasMany
+{
+    return $this->hasMany(Booking::class, 'alat_id');
+}
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'kategori_id');

@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Masuk — RODA</title>
+
 <style>
   :root{
     --cream:#EDE8DC;
@@ -266,22 +268,22 @@
 
 <header>
   <div class="brand">
-    <div class="brand-badge">RD</div>
-    RODA
+    <div class="brand-badge">Lab</div>
+    Komputer
   </div>
-  <nav><a href="#">Lihat Motor</a></nav>
+  <nav><a href="#">Lihat Alat</a></nav>
 </header>
 
 <main>
   <div class="wrap">
 
     <div class="side-copy">
-      <div class="eyebrow">SEWA MOTOR HARIAN · CIMAHI &amp; SEKITARNYA</div>
-      <h1>Masuk dulu, baru gas.</h1>
-      <p>Kelola pesanan, lihat riwayat sewa, dan booking motor favoritmu lebih cepat setelah masuk akun.</p>
+      <div class="eyebrow">PINJAM ALAT HARIAN</div>
+      <h1>Masuk dulu, baru gas...</h1>
+      <p>Kelola pesanan, lihat riwayat sewa, dan booking alat lebih cepat setelah masuk akun.</p>
       <div class="mini-card">
-        <div class="plate">B 1234 RD</div>
-        <span class="txt">3 motor tersedia hari ini</span>
+        <div class="plate">Siap alat</div>
+        <span class="txt">Alat tersedia hari ini</span>
       </div>
     </div>
 
@@ -289,7 +291,7 @@
     @csrf
 
     <h2>Masuk</h2>
-    <p class="sub">Masukkan akunmu untuk lanjut sewa motor.</p>
+    <p class="sub">Masukkan akunmu untuk lanjut peminjaman Alat.</p>
 
     @if ($errors->any())
         <div class="error show">
@@ -328,7 +330,6 @@
             Ingat saya
         </label>
 
-        <a href="#">Lupa kata sandi?</a>
     </div>
 
     <button type="submit" class="btn-login">
@@ -338,7 +339,7 @@
     <div class="divider">atau</div>
 
     <p class="signup-line">
-        Belum punya akun? <a href="#">Daftar sekarang</a>
+        Belum punya akun? <a href="{{route('register')}}">Daftar sekarang</a>
     </p>
 </form>
 

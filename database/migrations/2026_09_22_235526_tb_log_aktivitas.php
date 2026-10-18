@@ -14,9 +14,9 @@ return new class extends Migration
         schema::create('log_aktivitas', function(Blueprint $table){
             $table->id();
             $table->foreignId('user_id')->constrained('user')->cascadeOnDelete();
-            $table->str('aktivitas', 100);
+            $table->string('aktivitas');
             $table->dateTime('waktu_aktivitas');
-            $table->ttimestamps();
+            $table->timestamps();
         });
     }
 

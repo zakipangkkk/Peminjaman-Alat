@@ -14,7 +14,6 @@ return new class extends Migration
         schema::create('kategori',function(Blueprint $table){
             $table->id();
             $table->string('nama_kategori');
-            $table->string('harga_per_hari');
             $table->timestamps();
         });
     }

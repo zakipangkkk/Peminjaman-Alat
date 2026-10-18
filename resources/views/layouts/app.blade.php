@@ -15,21 +15,33 @@
     <header class="nav">
 
         <a href="{{ route('dashboard') }}" class="brand">
-            <span class="brand-plate">RD</span>
-            <span class="brand-name">RODA</span>
+            <span class="brand-plate">LAB</span>
+            <span class="brand-name">Komputer</span>
         </a>
 
         <nav class="nav-actions">
 
-            <a href="{{ route('motor_user.index') }}"
+        <a href="{{route('booking.index')}}"
+            class="nav-link">
+            riwayat
+        </a>
+
+        <a href="{{ route('keranjang.index') }}">
+    Keranjang ({{ count(session('keranjang', [])) }})
+</a>
+            
+
+            <a href="{{ route('alat.index') }}"
                class="nav-link">
-                Lihat Motor
+                Lihat Alat
             </a>
 
             <a href="{{ route('login') }}"
                class="btn-login">
                 Masuk
             </a>
+
+
 
         </nav>
 

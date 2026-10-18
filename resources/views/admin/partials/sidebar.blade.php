@@ -33,21 +33,35 @@
 
 
         {{-- MOTOR --}}
-        <a href="{{ route('admin.motor.index') }}"
-           class="nav-item {{ request()->routeIs('admin.motor.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.alat.index') }}"
+           class="nav-item {{ request()->routeIs('admin.alat.*') ? 'active' : '' }}">
 
-            Motor
+            Alat
 
         </a>
 
 
         {{-- PENYEWAAN --}}
-        {{-- <a href="{{ route('admin.booking.index') }}"
+        <a href="{{ route('admin.booking.index') }}"
            class="nav-item {{ request()->routeIs('admin.booking.*') ? 'active' : '' }}">
 
             Penyewaan
 
-        </a> --}}
+        </a>
+
+        <a href="{{ route('admin.pengembalian.index') }}"
+           class="nav-item {{ request()->routeIs('admin.pengembalian.*') ? 'active' : '' }}">
+
+            Pengembalian
+
+        </a>
+
+        <a href="{{ route('admin.kategori.index') }}"
+           class="nav-item {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
+
+            Kategori
+
+        </a>
 
 
         {{-- PELANGGAN --}}

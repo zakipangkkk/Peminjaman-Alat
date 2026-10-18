@@ -13,7 +13,7 @@ return new class extends Migration
     {
         schema::create('pengembalian', function(Blueprint $table){
             $table->id();
-            $table->foreignId('booking_id')->constrained('booking')->cascadeOnDelete();
+            $table->foreIgnId('booking_id')->constrained('booking')->casecadeOnDelete();
             $table->date('tanggal_kembali');
             $table->decimal('denda');
             $table->string('keterangan');

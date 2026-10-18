@@ -1,73 +1,192 @@
 @extends('layouts.app')
 
-@section('title', 'RODA - Sewa Motor')
+@section('title', 'RODA - Peminjaman Alat')
+
+@push('styles')
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+    {{-- <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}"> --}}
+@endpush
+
+<style>
+    /* public/css/dasShboard.css */
+
+:root {
+    color-scheme: light;
+    --bg: #EFE9DC; 
+    --ink: #1F1D1A;
+    --muted: #6B645A;
+    --amber: #E4A233;
+    --red: #B3371F;
+    --card: #F7F2E7;
+    --ok: #2F7D4F;
+}
+
+body { background: var(--bg); color: var(--ink); font-family: 'Work Sans', system-ui, sans-serif; line-height: 1.6; }
+html { scroll-behavior: smooth; }
+.dashboard h1, .dashboard h2, .dashboard h3 { font-family: 'Oswald', 'Arial Narrow', sans-serif; margin: 0; }
+.dashboard :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+.dashboard { max-width: 1300px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+
+/* ---------- HERO ---------- */
+.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center; padding: 70px 0 40px; }
+
+.eyebrow-plate { color: var(--red); font: 600 15px 'Oswald', sans-serif; letter-spacing: .12em; text-transform: uppercase; margin: 0; }
+.hero h1 { font-size: clamp(46px, 6.2vw, 76px); line-height: 1; font-weight: 700; margin: 14px 0 22px; }
+.hero-sub { color: var(--muted); font-size: 18px; max-width: 46ch; margin: 0 0 36px; }
+
+.btn-primary {
+    display: inline-block; background: var(--amber); color: var(--ink);
+    border: 2px solid var(--ink); padding: 16px 34px;
+    font: 600 18px 'Oswald', sans-serif; letter-spacing: .03em; text-decoration: none;
+    box-shadow: 7px 7px 0 var(--ink); transition: transform .12s, box-shadow .12s;
+}
+.btn-primary:hover { transform: translate(4px, 4px); box-shadow: 3px 3px 0 var(--ink); }
+
+.road { border-top: 2px dashed var(--ink); opacity: .7; margin: 40px 0 28px; max-width: 680px; }
+
+.stats { display: flex; gap: 46px; flex-wrap: wrap; }
+.stat-num { display: block; font: 600 40px/1.1 'Oswald', sans-serif; }
+.stat-label { display: block; color: var(--muted); font-size: 15px; }
+
+/* ---------- HERO ART ---------- */
+.hero-art {
+    position: relative; aspect-ratio: 1.43 / 1; display: grid; place-items: center;
+    background: radial-gradient(circle at 52% 48%, #EDC77C 0, #F0DDB9 45%, #EDE0C8 100%);
+    border: 2px solid var(--ink); box-shadow: 12px 12px 0 var(--ink); transform: rotate(-1.2deg);
+}
+.hero-glow { position: absolute; inset: 0; pointer-events: none; }
+.hero-motor { width: 46%; filter: drop-shadow(0 12px 14px rgba(120, 60, 20, .25)); }
+.hero-motor svg { width: 100%; height: auto; display: block; }
+.speed-lines { position: absolute; left: 9%; top: 36%; display: grid; gap: 7px; }
+.speed-lines span { display: block; height: 3px; background: #B9A98C; border-radius: 2px; }
+.speed-lines span:nth-child(1) { width: 38px; }
+.speed-lines span:nth-child(2) { width: 58px; }
+.speed-lines span:nth-child(3) { width: 26px; }
+.hero-plate {
+    position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
+    background: #1F1D1A; color: #F7F2E7; font: 600 17px 'Oswald', sans-serif;
+    letter-spacing: .16em; padding: 7px 18px; white-space: nowrap;
+}
+
+/* ---------- DAFTAR ALAT ---------- */
+.categories { padding: 60px 0 90px; }
+.section-title { font-size: clamp(30px, 4vw, 44px); font-weight: 700; margin-bottom: 4px; }
+.section-label { color: var(--muted); font-size: 15px; margin: 0 0 18px; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+.chip {
+    border: 2px solid var(--ink); background: transparent; color: var(--ink);
+    padding: 8px 18px; font: 500 15px 'Work Sans', sans-serif; text-decoration: none;
+}
+.chip.active { background: var(--ink); color: var(--bg); box-shadow: 4px 4px 0 var(--amber); }
+
+.search-box { display: flex; max-width: 460px; border: 2px solid var(--ink); background: var(--card); margin-bottom: 34px; }
+.search-box input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); padding: 12px 14px; font: 500 15px 'Work Sans', sans-serif; }
+.search-box input:focus { outline: none; }
+.search-box:focus-within { outline: 3px solid var(--amber); outline-offset: 2px; }
+.search-box button { border: 0; background: var(--ink); color: var(--bg); padding: 12px 18px; font: 600 14px 'Work Sans', sans-serif; cursor: pointer; }
+
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 34px 28px; }
+.tool-card { background: var(--card); border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); display: flex; flex-direction: column; }
+.tool-card:nth-child(3n+1) { transform: rotate(-.6deg); }
+.tool-card:nth-child(3n+2) { transform: rotate(.5deg); }
+
+.tool-thumb {
+    height: 120px; display: grid; place-items: center; font-size: 52px; position: relative;
+    border-bottom: 2px solid var(--ink); background: radial-gradient(circle, #EDC77C 0, #F1E3C6 75%);
+}
+.tool-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.tool-tag {
+    position: absolute; left: 10px; bottom: -13px; background: #1F1D1A; color: #F7F2E7;
+    font: 600 12px 'Oswald', sans-serif; letter-spacing: .14em; padding: 4px 10px; text-transform: uppercase;
+}
+
+.tool-body { padding: 26px 16px 16px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.tool-body h3 { font-size: 22px; font-weight: 600; }
+.tool-cat { font-size: 14px; color: var(--muted); margin: 0; }
+.tool-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; padding-top: 14px; }
+.tool-stok { font-size: 14px; font-weight: 600; }
+.tool-stok.ok { color: var(--ok); }
+.tool-stok.out { color: var(--red); }
+
+.btn-small {
+    display: inline-block; background: var(--ink); color: var(--bg); border: 2px solid var(--ink);
+    padding: 7px 16px; font: 600 14px 'Work Sans', sans-serif; text-decoration: none;
+    box-shadow: 4px 4px 0 var(--amber); transition: transform .12s, box-shadow .12s;
+}
+.btn-small:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--amber); }
+.btn-small.disabled { background: transparent; color: var(--muted); border-style: dashed; box-shadow: none; cursor: not-allowed; transform: none; }
+
+.tool-empty { grid-column: 1 / -1; border: 2px dashed var(--ink); padding: 40px; text-align: center; }
+.tool-empty strong { display: block; font: 600 24px 'Oswald', sans-serif; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 44px; padding-top: 44px; }
+    .hero-art { max-width: 560px; }
+}
+@media (max-width: 560px) {
+    .tool-card { transform: none !important; }
+    .stats { gap: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+}
+</style>
 
 @section('content')
 
 <main class="dashboard">
 
+    {{-- ================= HERO ================= --}}
     <section class="hero">
 
         <div class="hero-text">
 
             <p class="eyebrow-plate">
-                SEWA MOTOR HARIAN · CIMAHI & SEKITARNYA
+                PEMINJAMAN ALAT · CIMAHI &amp; SEKITARNYA
             </p>
 
             <h1>
-                Ambil motornya,
+                Pilih alatnya,
                 <br>
-                ambil jalannya.
+                mulai kegiatannya.
             </h1>
 
             <p class="hero-sub">
-                Motor siap pakai, dari matic harian
-                sampai trail buat offroad.
-                Pesan sekarang, ambil hari ini juga.
+                Berbagai alat tersedia untuk kebutuhan
+                sekolah, praktik, dan kegiatan lainnya.
+                Ajukan peminjaman dengan mudah.
             </p>
 
-            <a href="{{ route('motor_user.index') }}"
-               class="btn-primary">
-                Lihat Motor
+            <a href="#alat" class="btn-primary">
+                Lihat alat
             </a>
 
             <div class="road"></div>
 
             <div class="stats">
-
                 <div class="stat">
-                    <span class="stat-num">
-
-                    </span>
-
-                    <span class="stat-label">
-                        motor tersedia
-                    </span>
+                    <span class="stat-num">{{ $alatTersedia ?? 0 }}</span>
+                    <span class="stat-label">alat tersedia</span>
                 </div>
 
                 <div class="stat">
                     <span class="stat-num">3</span>
-
-                    <span class="stat-label">
-                        lokasi jemput
-                    </span>
+                    <span class="stat-label">lokasi pengambilan</span>
                 </div>
 
                 <div class="stat">
-                    <span class="stat-num">
-                        2 mnt
-                    </span>
-
-                    <span class="stat-label">
-                        proses booking
-                    </span>
+                    <span class="stat-num">2 mnt</span>
+                    <span class="stat-label">proses peminjaman</span>
                 </div>
-
             </div>
 
         </div>
 
-        <div class="hero-art">
+        <div class="hero-art" aria-hidden="true">
 
             <div class="hero-glow"></div>
 
@@ -78,48 +197,25 @@
             </div>
 
             <div class="hero-motor">
-                🏍️
+                <svg viewBox="0 0 190 160" fill="none">
+                    <path d="M58 40v-14a12 12 0 0 1 12-12h50a12 12 0 0 1 12 12v14" stroke="#5B3F73" stroke-width="12" stroke-linecap="round"/>
+                    <rect x="2" y="38" width="186" height="118" rx="20" fill="#FF3D6E"/>
+                    <rect x="2" y="38" width="186" height="30" rx="20" fill="#FF5C86"/>
+                    <rect x="2" y="74" width="186" height="5" fill="#C22458"/>
+                    <rect x="36" y="62" width="26" height="24" rx="8" fill="#B8A4D6"/>
+                    <rect x="128" y="62" width="26" height="24" rx="8" fill="#B8A4D6"/>
+                    <rect x="30" y="106" width="130" height="7" rx="3.5" fill="#C9B8E4"/>
+                    <rect x="30" y="124" width="130" height="7" rx="3.5" fill="#C9B8E4"/>
+                </svg>
             </div>
 
-            <div class="hero-plate">
-                B 1234 RD
-            </div>
+            <div class="hero-plate">ALAT SIAP</div>
 
         </div>
 
     </section>
 
-    <section class="categories">
 
-        <p class="section-label">
-            Cari berdasarkan jenis
-        </p>
-
-        <div class="chip-row">
-
-            <a href="{{ route('motor_user.index') }}?kategori=Matic"
-               class="chip">
-                Matic
-            </a>
-
-            <a href="{{ route('motor_user.index') }}?kategori=Sport"
-               class="chip">
-                Sport
-            </a>
-
-            <a href="{{ route('motor_user.index') }}?kategori=Premium"
-               class="chip">
-                Premium
-            </a>
-
-            <a href="{{ route('motor_user.index') }}?kategori=Trail"
-               class="chip">
-                Trail
-            </a>
-
-        </div>
-
-    </section>
 
 </main>
 

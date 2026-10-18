@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        schema::create('motor', function(Blueprint $table){
+        schema::create('alat', function(Blueprint $table){
             $table->id();
-            $table->foreignId('kategori_id')->constrained('kategori')->cascaseOnDelete();
-            $table->string('nama_motor');
-            $table->string('plat_nomor');
+            $table->foreignId('kategori_id')->constrained('kategori')->cascadeOnDelete();
+            $table->string('nama_alat');
+            $table->integer('jumlah');
             $table->string('foto');
-            $table->string('cc');
-            $table->string('status');
             $table->timestamps();
         });
     }

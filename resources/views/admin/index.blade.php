@@ -18,9 +18,9 @@
 
     <div class="topbar-right">
 
-        <a href="{{ route('admin.motor.create') }}" class="btn">
-            + Tambah Motor
-        </a>
+        {{-- <a href="{{ route('admin.booking.create') }}" class="btn">
+            + Tambah Booking
+        </a> --}}
 
     </div>
 
@@ -36,7 +36,7 @@
         </div>
 
         <div class="value">
-            {{ $motortersedia ?? 0 }}
+            {{ $alattersedia ?? 0 }}
         </div>
 
         <div class="delta">
@@ -51,7 +51,7 @@
         </div>
 
         <div class="value">
-            {{ $motorDisewa ?? 0 }}
+            {{ $alatDisewa ?? 0 }}
         </div>
 
         <div class="delta">
@@ -66,7 +66,7 @@
         </div>
 
         <div class="value">
-            {{ $totalMotor ?? 0 }}
+            {{ $totalAlat ?? 0 }}
         </div>
 
         <div class="delta">

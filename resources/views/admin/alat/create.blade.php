@@ -242,8 +242,8 @@
     <div class="roda-container">
 
         <span class="roda-eyebrow">Panel Admin &middot; Data Motor</span>
-        <h2 class="roda-title">Tambah Motor Baru</h2>
-        <p class="roda-subtitle">Lengkapi data motor di bawah ini untuk menambahkannya ke daftar armada RODA.</p>
+        <h2 class="roda-title">Tambah Alat Baru</h2>
+        <p class="roda-subtitle">Lengkapi data alat di bawah ini untuk menambahkannya ke daftar armada RODA.</p>
 
         <div class="roda-card">
 
@@ -259,88 +259,91 @@
 
             <hr class="roda-divider">
 
-            <form action="{{ route('admin.motor.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
 
-                <div class="roda-field-row">
-                    <div class="roda-field">
-                        <label>Nama Motor</label>
-                        <input type="text" name="nama_motor" value="{{ old('nama_motor') }}" placeholder="Contoh: Honda Beat" required>
-                    </div>
+<form action="{{ route('admin.alat.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-                    <div class="roda-field">
-                        <label>Plat Nomor</label>
-                        <input type="text" name="plat_nomor" value="{{ old('plat_nomor') }}" placeholder="B 1234 RD" required>
-                    </div>
-                </div>
+    <div class="roda-field">
+        <label>Nama Alat</label>
+        <input
+            type="text"
+            name="nama_alat"
+            value="{{ old('nama_alat') }}"
+            placeholder="Contoh: Laptop ASUS"
+            required
+        >
+    </div>
 
-                <div class="roda-field-row">
+    <div class="roda-field-row">
+        <div class="roda-field">
+            <label>Jumlah Alat</label>
+            <input
+                type="number"
+                name="jumlah"
+                value="{{ old('jumlah') }}"
+                placeholder="Contoh: 10"
+                min="0"
+                required
+            >
+        </div>
 
+        <div class="roda-field">
+            <label>Kategori</label>
+            <select name="kategori_id" required>
+                <option value="">-- Pilih Kategori --</option>
 
-                <div class="roda-field-row">
-                    <div class="roda-field">
-                        <label>cc</label>
-                        <input type="text" name="cc" value="{{ old('cc') }}" placeholder="125cc" required>
-                    </div>
-                
+                @foreach ($kategori as $item)
+                    <option
+                        value="{{ $item->id }}"
+                        {{ old('kategori_id') == $item->id ? 'selected' : '' }}
+                    >
+                        {{ $item->nama_kategori }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
 
-                    
+    <div class="roda-field">
+        <label>Foto Alat</label>
 
-                    <div class="roda-field">
-                        <label>Kategori</label>
-                        <select name="kategori_id" required>
-                            <option value="">-- Pilih Kategori --</option>
+        <div class="roda-file">
+            <input
+                type="file"
+                name="foto"
+                id="foto"
+                accept="image/jpeg,image/png,image/jpg"
+                required
+            >
 
-                            @foreach ($kategori as $item)
-                                <option value="{{ $item->id }}"
-                                    {{ old('kategori_id') == $item->id ? 'selected' : '' }}>
-                                    {{ $item->nama_kategori }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-            <div class="roda-field">
-                    <label>Foto Motor</label>
-
-                    <div class="roda-file">
-                        <input
-                            type="file"
-                            name="foto"
-                            id="foto"
-                            accept="image/jpeg,image/png,image/jpg"
-                        >   
-
-                    <div class="roda-file-label">
-                        <strong>Klik untuk unggah</strong>
-                        atau seret foto ke sini
-                    </div>
-                    </div>
+            <div class="roda-file-label">
+                <strong>Klik untuk unggah</strong>
+                atau pilih foto alat di sini
             </div>
-            <div id="preview-container" style="display: none; margin-top: 15px;">
-                <img
-                    id="preview"
-                    src="#"
-                    alt="Preview Foto Motor"
-                    style="max-width: 250px; border-radius: 10px;"
-                >
-            </div>
+        </div>
+    </div>
 
-                <div class="roda-field">
-                    <label>Status</label>
-                    <select name="status" required>
-                        <option value="tersedia">Tersedia</option>
-                        <option value="disewa">Disewa</option>
-                        <option value="perawatan">Perawatan</option>
-                    </select>
-                </div>
+    <div id="preview-container" style="display: none; margin-top: 15px;">
+        <img
+            id="preview"
+            src="#"
+            alt="Preview Foto Alat"
+            style="max-width: 250px; border-radius: 10px;"
+        >
+    </div>
 
-                <div class="roda-actions">
-                    <button type="submit" class="roda-btn">Simpan Motor</button>
-                    <a href="{{ route('admin.motor.index') }}" class="roda-btn-cancel">Batal</a>
-                </div>
-                <script>
+    <div class="roda-actions">
+        <button type="submit" class="roda-btn">
+            Simpan Alat
+        </button>
+
+        <a href="{{ route('admin.alat.index') }}" class="roda-btn-cancel">
+            Batal
+        </a>
+    </div>
+</form>
+
+<script>
     document.getElementById('foto').addEventListener('change', function(event) {
         const file = event.target.files[0];
 
@@ -353,6 +356,7 @@
         }
     });
 </script>
+
 
             </form>
 
