@@ -35,4 +35,9 @@ class Booking extends Model
     {
         return $this->hasOne(Pengembalian::class, 'booking_id');
     }
+
+    public function alat()
+    {
+        return $this->belongsTo(Alat::class, 'alat_id');
+    }
 }

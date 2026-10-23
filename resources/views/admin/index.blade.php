@@ -1,3 +1,4 @@
+```blade
 @extends('layouts.master')
 
 @section('title', 'Dashboard Admin')
@@ -5,25 +6,17 @@
 @section('content')
 
 <div class="topbar">
-
     <div>
         <div class="eyebrow">
             Ringkasan · Hari ini
         </div>
 
-        <h1>
-            Dashboard
-        </h1>
+        <h1>Dashboard</h1>
     </div>
 
     <div class="topbar-right">
-
-        {{-- <a href="{{ route('admin.booking.create') }}" class="btn">
-            + Tambah Booking
-        </a> --}}
-
+        {{-- Tombol aksi bisa ditambahkan di sini --}}
     </div>
-
 </div>
 
 
@@ -32,37 +25,35 @@
 
     <div class="stat-card">
         <div class="label">
-            Motor tersedia
+            Alat tersedia
         </div>
 
         <div class="value">
-            {{ $alattersedia ?? 0 }}
+            {{ $alatTersedia ?? 0 }}
         </div>
 
         <div class="delta">
-            Unit tersedia
+            Total unit yang tersedia
         </div>
     </div>
 
-
     <div class="stat-card">
         <div class="label">
-            Sedang disewa
+            Sedang dipinjam
         </div>
 
         <div class="value">
-            {{ $alatDisewa ?? 0 }}
+            {{ $alatDipinjam ?? 0 }}
         </div>
 
         <div class="delta">
-            Motor sedang disewa
+            Peminjaman yang masih berlangsung
         </div>
     </div>
 
-
     <div class="stat-card">
         <div class="label">
-            Total motor
+            Total jenis alat
         </div>
 
         <div class="value">
@@ -70,14 +61,13 @@
         </div>
 
         <div class="delta">
-            Seluruh kendaraan
+            Jenis alat terdaftar
         </div>
     </div>
 
-
     <div class="stat-card">
         <div class="label">
-            Total pelanggan
+            Total pengguna
         </div>
 
         <div class="value">
@@ -92,88 +82,76 @@
 </div>
 
 
-{{-- PENYEWAAN TERBARU --}}
+{{-- PEMINJAMAN TERBARU --}}
 <div class="panel">
 
     <div class="panel-head">
-
-        <h2>
-            Penyewaan Terbaru
-        </h2>
-
-        {{-- <a href="{{ route('admin.booking.index') }}" class="link">
-            Lihat semua →
-        </a> --}}
-
+        <h2>Peminjaman Terbaru</h2>
     </div>
 
-
     <table>
-
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Pelanggan</th>
-                <th>Motor</th>
-                <th>Mulai</th>
-                <th>Selesai</th>
+                <th>Peminjam</th>
+                <th>Nama Alat</th>
+                <th>Tanggal Pinjam</th>
+                <th>Rencana Kembali</th>
                 <th>Status</th>
-                <th>Total</th>
             </tr>
         </thead>
 
         <tbody>
+            @forelse ($peminjamanTerbaru ?? [] as $peminjaman)
+                <tr>
+                    <td>
+                        #{{ $peminjaman->id }}
+                    </td>
 
-            @forelse($bookingTerbaru ?? [] as $booking)
+                    <td>
+                        {{ $peminjaman->user->username ?? '-' }}
+                    </td>
 
-            <tr>
+                    <td>
+                        @forelse ($peminjaman->detail as $detail)
+                            <div style="margin-bottom: 5px;">
+                                {{ $detail->alat->nama_alat ?? 'Alat tidak ditemukan' }}
+                                ({{ $detail->jumlah }} unit)
+                            </div>
+                        @empty
+                            -
+                        @endforelse
+                    </td>
 
-                <td>
-                    #{{ $booking->id }}
-                </td>
+                    <td>
+                        {{ $peminjaman->tanggal_mulai
+                            ? $peminjaman->tanggal_mulai->format('d-m-Y')
+                            : '-' }}
+                    </td>
 
-                <td>
-                    {{ $booking->user->name ?? '-' }}
-                </td>
+                    <td>
+                        {{ $peminjaman->tanggal_selesai
+                            ? $peminjaman->tanggal_selesai->format('d-m-Y')
+                            : '-' }}
+                    </td>
 
-                <td>
-                    {{ $booking->motor->nama_motor ?? '-' }}
-                </td>
-
-                <td>
-                    {{ $booking->waktu_mulai ?? '-' }}
-                </td>
-
-                <td>
-                    {{ $booking->waktu_selesai ?? '-' }}
-                </td>
-
-                <td>
-                    <span class="badge">
-                        {{ $booking->status }}
-                    </span>
-                </td>
-
-                <td>
-                    Rp{{ number_format($booking->total ?? 0, 0, ',', '.') }}
-                </td>
-
-            </tr>
-
+                    <td>
+                        <span class="badge">
+                            {{ ucfirst($peminjaman->status ?? '-') }}
+                        </span>
+                    </td>
+                </tr>
             @empty
-
-            <tr>
-                <td colspan="7" style="text-align:center;">
-                    Belum ada data penyewaan.
-                </td>
-            </tr>
-
+                <tr>
+                    <td colspan="6" style="text-align: center;">
+                        Belum ada data peminjaman.
+                    </td>
+                </tr>
             @endforelse
-
         </tbody>
-
     </table>
 
 </div>
 
 @endsection
+```

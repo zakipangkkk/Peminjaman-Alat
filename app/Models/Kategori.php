@@ -12,8 +12,8 @@ class Kategori extends Model
         'nama_kategori',
     ];
 
-    public function motor()
+    public function alat()
     {
-    return $this->hasMany(Motor::class);
+    return $this->hasMany(Alat::class, 'kategori_id');
     }
 }

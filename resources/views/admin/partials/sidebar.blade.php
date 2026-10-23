@@ -73,13 +73,7 @@
         </a>
 
 
-        {{-- LAPORAN --}}
-        <a href="{{ route('admin.laporan.index') }}"
-           class="nav-item {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
-
-            Laporan
-
-        </a>
+    
 
     </nav>
 

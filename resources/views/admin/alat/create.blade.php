@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Tambah Motor')
+@section('title', 'Tambah Alat')
 
 @section('content')
 
@@ -241,7 +241,7 @@
 <div class="roda-wrap">
     <div class="roda-container">
 
-        <span class="roda-eyebrow">Panel Admin &middot; Data Motor</span>
+        <span class="roda-eyebrow">Panel Admin &middot; Data Alat</span>
         <h2 class="roda-title">Tambah Alat Baru</h2>
         <p class="roda-subtitle">Lengkapi data alat di bawah ini untuk menambahkannya ke daftar armada RODA.</p>
 

@@ -9,9 +9,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\AdminBookingController;
+use App\Http\Controllers\PetugasBookingController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PetugasPengembalianController;
+use App\Http\Controllers\PetugasDashboardController;
+use App\Http\Controllers\AdminBookingController;
+use App\Http\Controllers\AdminPengembalianController;
 
 
 // Halaman utama: Dashboard
@@ -122,5 +126,32 @@ Route::middleware('auth')
         // Laporan
         Route::get('/laporan', [LaporanController::class, 'index'])
             ->name('laporan.index');
+
+
+            Route::resource('booking', AdminBookingController::class)->except('show');
+    Route::resource('pengembalian', AdminPengembalianController::class)->except('show');
+
+    });
+
+
+
+
+
+Route::middleware('auth')
+    ->prefix('petugas')
+    ->name('petugas.')
+    ->group(function () {
+
+    Route::get('/', [PetugasDashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/booking', [PetugasBookingController::class, 'index'])->name('booking.index');
+    Route::patch('/booking/{id}/setujui', [PetugasBookingController::class, 'setujui'])->name('booking.setujui');
+    Route::patch('/booking/{id}/tolak', [PetugasBookingController::class, 'tolak'])->name('booking.tolak');
+    Route::patch('/booking/{id}/kembali', [PetugasBookingController::class, 'kembali'])->name('booking.kembali');
+
+    Route::get('/pengembalian', [PetugasPengembalianController::class, 'index'])->name('pengembalian.index');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
 
     });

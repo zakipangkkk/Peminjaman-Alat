@@ -7,6 +7,8 @@
     <title>@yield('title', 'RODA')</title>
 
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
+    @stack('styles')
 </head>
 
 <body>
