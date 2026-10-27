@@ -1,58 +1,136 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Peminjaman Alat Laboratorium Komputer
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 Pengenalan Sistem
 
-## About Laravel
+Sistem Peminjaman Alat Laboratorium Komputer merupakan aplikasi berbasis web yang dirancang untuk mempermudah proses peminjaman dan pengembalian alat laboratorium komputer di lingkungan sekolah. Sistem ini dibuat untuk membantu pengelolaan data alat, data pengguna, kategori alat, transaksi peminjaman, serta pengembalian alat agar lebih terstruktur dan efisien.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi ini memiliki tiga hak akses pengguna, yaitu **Admin, Petugas, dan Siswa**. Admin bertugas mengelola data alat, kategori, pengguna, peminjaman, pengembalian, serta laporan. Petugas bertugas memverifikasi transaksi peminjaman dan pengembalian alat. Sementara itu, siswa dapat melihat daftar alat yang tersedia, mengajukan peminjaman melalui keranjang, dan melihat riwayat peminjaman.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Dengan adanya sistem ini, proses peminjaman alat diharapkan menjadi lebih mudah, tertata, dan mengurangi kesalahan dalam pencatatan data.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur Sistem
 
-## Learning Laravel
+### 👨‍💼 Admin
+- Mengelola data alat laboratorium komputer.
+- Mengelola kategori alat.
+- Mengelola data pengguna.
+- Melihat dan mengelola data peminjaman.
+- Mengelola data pengembalian.
+- Melihat laporan peminjaman dan pengembalian.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🧑‍🔧 Petugas
+- Melihat data peminjaman.
+- Memverifikasi peminjaman alat.
+- Memverifikasi pengembalian alat.
+- Membantu proses pengelolaan transaksi peminjaman.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🎓 Siswa
+- Melihat daftar alat yang tersedia.
+- Melihat detail alat.
+- Memilih alat melalui keranjang peminjaman.
+- Mengajukan peminjaman alat.
+- Melihat riwayat peminjaman.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## 🔐 Akun Login
 
-## Agentic Development
+Gunakan akun berikut untuk mencoba sistem:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Role | Username | Password |
+|---|---|---|
+| Siswa | `siswa` | `12345678` |
+| Admin | `admin` | `admin123` |
+| Petugas | `petugas` | `petugas123` |
 
-```bash
-composer require laravel/boost --dev
+**Catatan:** Akun di atas merupakan akun demo. Pastikan akun sudah tersedia di database sebelum mencoba login.
 
-php artisan boost:install
-```
+## 🛠️ Teknologi yang Digunakan
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+- **Framework:** Laravel
+- **Bahasa Pemrograman:** PHP
+- **Database:** MySQL
+- **Frontend:** HTML, CSS, JavaScript, dan Blade
+- **Development Environment:** Laragon
 
-## Contributing
+## 🚀 Instalasi dan Menjalankan Sistem
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Clone repository GitHub:
 
-## Code of Conduct
+   ```bash
+   git clone https://github.com/USERNAME/NAMA-REPOSITORY.git
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Masuk ke folder proyek:
 
-## Security Vulnerabilities
+   ```bash
+   cd NAMA-REPOSITORY
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Install dependensi Laravel:
 
-## License
+   ```bash
+   composer install
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. Salin file konfigurasi:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Pada Windows, kamu juga dapat menyalin `.env.example` secara manual menjadi `.env`.
+
+5. Buat database MySQL dengan nama `db_peminjaman`, kemudian sesuaikan konfigurasi database di file `.env`.
+
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=db_peminjaman
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+6. Generate application key:
+
+   ```bash
+   php artisan key:generate
+   ```
+
+7. Jalankan migrasi database:
+
+   ```bash
+   php artisan migrate
+   ```
+
+   Jika proyek menggunakan seeder untuk membuat akun demo, jalankan juga:
+
+   ```bash
+   php artisan db:seed
+   ```
+
+8. Install dependensi frontend dan jalankan Vite:
+
+   ```bash
+   npm install
+   npm run build
+   ```
+
+9. Jalankan aplikasi:
+
+   ```bash
+   php artisan serve
+   ```
+
+10. Buka aplikasi melalui browser:
+
+    ```text
+    http://127.0.0.1:8000
+    ```
+
+## 🎯 Tujuan Sistem
+
+Sistem ini bertujuan untuk membantu sekolah dalam mengelola peminjaman alat laboratorium komputer secara digital, mempermudah pemantauan ketersediaan alat, serta meningkatkan ketertiban administrasi peminjaman dan pengembalian.
+
+---
+
+**Dikembangkan sebagai proyek pembelajaran** untuk penerapan sistem informasi berbasis web menggunakan Laravel dan MySQL.
