@@ -95,33 +95,13 @@ Gunakan akun berikut untuk mencoba sistem:
    ```bash
    php artisan key:generate
    ```
-
-7. Jalankan migrasi database:
-
-   ```bash
-   php artisan migrate
-   ```
-
-   Jika proyek menggunakan seeder untuk membuat akun demo, jalankan juga:
-
-   ```bash
-   php artisan db:seed
-   ```
-
-8. Install dependensi frontend dan jalankan Vite:
-
-   ```bash
-   npm install
-   npm run build
-   ```
-
-9. Jalankan aplikasi:
+7. Jalankan aplikasi:
 
    ```bash
    php artisan serve
    ```
 
-10. Buka aplikasi melalui browser:
+8. Buka aplikasi melalui browser:
 
     ```text
     http://127.0.0.1:8000
